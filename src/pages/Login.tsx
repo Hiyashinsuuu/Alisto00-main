@@ -42,12 +42,14 @@ const Login: React.FC = () => {
             <div className="mb-4">
               <input className="w-full px-4 py-2 border-gray-300 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="Password" type="password" />
             </div>
-            <div className="mb-4 text-center">
-              <Link to="/set-password" className="text-gray-600 hover:text-[#007AFF] transition-colors">Forgot Password?</Link>
+            <div className="mb-4 text-right">
+              <Link to="/set-password" className="text-[#007AFF] transition-colors">Forgot Password?</Link>
             </div>
             <Link to="/dashboard">
               <button className="text-[16px] w-full px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-blue-600 transition-colors">Login</button>
             </Link>
+            <hr className="my-5 w-full border-gray-300" />
+            <button className="mt-3 text-[16px] w-full px-4 py-2 bg-[#333333] text-white rounded transition-colors">Or sign in with google</button>
           </form>
         </div>
       </div>
