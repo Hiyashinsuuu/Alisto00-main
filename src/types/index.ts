@@ -5,8 +5,9 @@ export interface Task {
   location?: string;
   category?: string;
   tag?: string;
-  completed: boolean;
   project?: string;
+  dueDate?: Date | null;
+  completed: boolean;
 }
 
 export interface Project {
