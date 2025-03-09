@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
@@ -23,6 +22,7 @@ interface SidebarProps {
   totalTasksCount: number;
   uncompletedTasksCount: number;
   upcomingTasksCount: number;
+  userName: string; // Add userName prop
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -33,7 +33,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   completedTasksCount,
   totalTasksCount,
   uncompletedTasksCount,
-  upcomingTasksCount
+  upcomingTasksCount,
+  userName, // Destructure userName prop
 }) => {
   return (
     <div className="w-60 bg-white border-r flex flex-col h-full">
@@ -58,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <span>U</span>
           </div>
           <div className="ml-3">
-            <div className="text-sm font-medium">KazutoKei03</div>
+            <div className="text-sm font-medium">{userName}</div> {/* Use userName prop */}
             <div className="text-xs text-gray-500">{completedTasksCount}/{totalTasksCount} Tasks Done</div>
           </div>
         </div>

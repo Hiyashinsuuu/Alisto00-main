@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
+  
   return (
     <div className="flex min-h-screen">
       {/* Left Section */}

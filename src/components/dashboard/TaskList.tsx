@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Inbox, LayoutDashboard, Calendar, Star, CheckSquare, Hash } from 'lucide-react';
 import { Task, Project } from '../../types';
 import TaskItem from '../TaskItem';
@@ -8,20 +8,43 @@ interface TaskListProps {
   filteredTasks: Task[];
   projects: Project[];
   showTaskMenu: string | null;
-  setShowTaskMenu: (id: string | null) => void;
+  setShowTaskMenu: React.Dispatch<React.SetStateAction<string | null>>;
   toggleTaskCompletion: (id: string) => void;
   deleteTask: (id: string) => void;
 }
 
 const TaskList: React.FC<TaskListProps> = ({ 
   activeTab, 
-  filteredTasks, 
-  projects,
+  projects, 
   showTaskMenu, 
   setShowTaskMenu, 
   toggleTaskCompletion, 
   deleteTask 
 }) => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch tasks from the backend
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/tasks/');
+        if (!response.ok) {
+          throw new Error('No tasks');
+        }
+        const data = await response.json();
+        setTasks(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
   const getTabTitle = () => {
     switch (activeTab) {
       case 'inbox':
@@ -64,6 +87,17 @@ const TaskList: React.FC<TaskListProps> = ({
     }
   };
 
+  // Filter tasks based on activeTab
+  const filteredTasks = tasks.filter(task => {
+    if (activeTab === 'completed') return task.completed;
+    if (activeTab === 'important') return task.important;
+    if (activeTab.startsWith('project-')) {
+      const projectId = activeTab.replace('project-', '');
+      return task.project === projectId;
+    }
+    return !task.completed; // Default: show incomplete tasks
+  });
+
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">{getTabTitle()}</h1>
@@ -73,7 +107,11 @@ const TaskList: React.FC<TaskListProps> = ({
       </div>
 
       <div className="border border-dashed border-gray-300 rounded-lg p-6 bg-white">
-        {filteredTasks.length === 0 ? (
+        {loading ? (
+          <p className="text-center text-gray-500">Loading tasks...</p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : filteredTasks.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <p>No tasks found</p>
           </div>

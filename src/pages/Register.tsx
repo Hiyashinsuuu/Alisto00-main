@@ -13,6 +13,9 @@ const Register: React.FC = () => {
               <input className="w-full px-4 py-2 border-gray-300 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="Fullname" type="text" />
             </div>
             <div className="mb-4">
+              <input className="w-full px-4 py-2 border-gray-300 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="Email" type="email" />
+            </div>
+            <div className="mb-4">
               <input className="w-full px-4 py-2 border-gray-300 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="Username" type="text" />
             </div>
             <div className="mb-4">

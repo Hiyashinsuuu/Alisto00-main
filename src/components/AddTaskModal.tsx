@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Hash } from 'lucide-react';
 import { Project } from '../types';
 import { cn } from '@/lib/utils';
+import axios from '../api/axios';
 
 interface AddTaskModalProps {
   newTask: {
@@ -26,7 +27,7 @@ interface AddTaskModalProps {
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ 
   newTask, 
   setNewTask, 
-  handleAddTask, 
+  handleAddTask: onAddTask, 
   setShowAddTaskModal,
   projects
 }) => {
@@ -175,6 +176,19 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const handleProjectSelect = (projectId: string) => {
     setNewTask({...newTask, project: projectId});
     setShowProjectSelector(false);
+  };
+
+  const handleAddTask = async () => {
+    try {
+      await axios.post('/tasks', {
+        ...newTask,
+        date: selectedDate,
+        time: formatTime()
+      });
+      setShowAddTaskModal(false);
+    } catch (error) {
+      console.error('Failed to add task:', error);
+    }
   };
 
   return (

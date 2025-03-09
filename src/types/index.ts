@@ -8,6 +8,7 @@ export interface Task {
   project?: string;
   dueDate?: Date | null;
   completed: boolean;
+  important: boolean;
 }
 
 export interface Project {
